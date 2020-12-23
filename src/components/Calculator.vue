@@ -7,12 +7,18 @@
                 <h2 class="popustZnesek">Procent popusta</h2>
 
                     <b-input-group size="sm" prepend="%" class="i">
-                         <b-form-input type="number"  max="100" min="0"  maxlenght=3 id="popust"  v-model="procent" required debounce="0" placeholder="vpisi koliko procentov" 
-                         onkeyup="if(this.value<0){this.value= this.value * -1}"
-                         @keypress="onlyNumber"
-                         onchange="changeHandler(this)"
+                         <b-form-input 
+                          type="number" 
+                          min="0" max="100" 
+                          maxlenght=3 
+                          id="popust"  
+                          v-model="procent" 
+                          required debounce="0" placeholder="vpisi koliko procentov" 
+                          onkeyup="if(this.value<0){this.value= this.value * -1}"
+                          @keypress="onlyNumber"
+                          onchange="changeHandler(this)"          
                           >
-                             {{ procent }}
+                          {{ procent }}
                          </b-form-input>
                      </b-input-group>
 
@@ -24,7 +30,9 @@
 
                     <b-input-group size="sm" prepend="€">
                             <b-form-input type="number"  max=10000000 min=0   id="popust"  v-model="znesek" required debounce="0" placeholder="vpisi znesek izdelka" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                             @keypress="onlyNumber">
+                             @keypress="onlyNumber"
+                             
+                             >
                                 {{ znesek }}
                              </b-form-input>
                      </b-input-group>
@@ -70,11 +78,20 @@
                     }
                  },
           methods: {
+
+              
+
             racun(){
           
-          this.zmnozek = ((this.znesek * this.procent) ); 
+          this.zmnozek = ((this.znesek * this.procent))
           this.koncniPopust = (parseFloat(this.zmnozek / 100).toFixed(2));
           this.koncneCene = (parseFloat(this.znesek - this.koncniPopust).toFixed(2));
+          if(this.procent > 100){
+              window.alert ("Vrednost procenta nemora biti večja od 100%")
+              this.koncniPopust = 0;
+              this.koncneCene =0;
+          }
+
                   }, 
             isInputNumber(evt){
                 
@@ -91,14 +108,13 @@
                             $event.preventDefault();
                         }
                               },
-            }
-            
-            
-    
-            
-               }
-            
-      
+                               data() {
+                        return {
+                                    amount: 7800
+                                    }
+                    }
+          }
+    }
     
  </script>
 
